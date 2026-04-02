@@ -1,0 +1,12 @@
+fastapi==0.115.0
+uvicorn==0.30.6
+pandas==2.2.2
+requests==2.32.3
+pymongo==4.9.1
+python-dotenv==1.0.1
+boto3==1.35.39
+matplotlib==3.9.2
+mangum
+openpyxl
+python-multipart
+python-jose[cryptography]

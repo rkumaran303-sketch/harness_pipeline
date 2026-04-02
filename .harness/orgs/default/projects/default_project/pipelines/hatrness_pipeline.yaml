@@ -1,0 +1,150 @@
+pipeline:
+  name: hatrness pipeline
+  identifier: hatrness_pipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: build
+        identifier: build
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          echo "=============================="
+                          echo "BUILD STAGE STARTED"
+                          echo "=============================="
+
+                          echo "Checking system info..."
+                          uname -a
+
+                          echo "Checking working directory..."
+                          pwd
+
+                          echo "Listing files..."
+                          ls -la
+
+                          echo "Creating build output folder..."
+                          mkdir -p build
+
+                          echo "Creating sample build file..."
+                          echo "This is a test build artifact" > build/app.txt
+
+                          echo "Build completed successfully"
+
+                          echo "=============================="
+                          echo "BUILD STAGE COMPLETED"
+                          echo "=============================="
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
+        when:
+          pipelineStatus: Success
+    - stage:
+        name: test
+        identifier: test
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          echo "=============================="
+                          echo "TEST STAGE STARTED"
+                          echo "=============================="
+
+                          echo "Checking if build artifact exists..."
+
+                          if [ -f build/app.txt ]; then
+                              echo "Test Passed: build/app.txt exists"
+                          else
+                              echo "Test Failed: build/app.txt not found"
+                              exit 1
+                          fi
+
+                          echo "Running sample test..."
+
+                          sleep 5
+
+                          echo "All tests passed"
+
+                          echo "=============================="
+                          echo "TEST STAGE COMPLETED"
+                          echo "=============================="
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
+    - stage:
+        name: artifact
+        identifier: artifact
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          echo "=============================="
+                          echo "ARTIFACT STAGE STARTED"
+                          echo "=============================="
+
+                          echo "Checking artifact..."
+
+                          if [ -f build/app.txt ]; then
+                              echo "Artifact found"
+                          else
+                              echo "Artifact missing"
+                              exit 1
+                          fi
+
+                          echo "Simulating artifact storage..."
+
+                          mkdir -p artifact
+
+                          cp build/app.txt artifact/
+
+                          echo "Artifact stored successfully"
+
+                          ls -la artifact
+
+                          echo "=============================="
+                          echo "ARTIFACT STAGE COMPLETED"
+                          echo "=============================="
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}

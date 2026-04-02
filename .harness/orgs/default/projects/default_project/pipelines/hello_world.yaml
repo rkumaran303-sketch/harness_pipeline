@@ -27,4 +27,9 @@ pipeline:
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: dev_infra
         tags: {}

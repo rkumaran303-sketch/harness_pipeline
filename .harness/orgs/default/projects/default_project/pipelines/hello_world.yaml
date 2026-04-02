@@ -1,0 +1,30 @@
+pipeline:
+  name: hello world
+  identifier: hello_world
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: build
+        identifier: build
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: Hello World
+                  identifier: hello_world
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "Hello World from Harness"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
